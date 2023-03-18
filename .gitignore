@@ -1,5 +1,1 @@
-./.breakpoints
-./.cache/*
-./__pycache__/*
-./pyproject.toml
-./poetry.lock
+.cache/replit/__replit_disk_meta.json
