@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recommend</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital@1&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    a,
+    a:visited {
+      color: inherit;
+      text-decoration: none;
+      transition: 0.1s linear all;
+    }
+
+    header {
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      width: 100vw;
+      height: 70px;
+      background-color: rgba(0, 180, 210);
+      color: white;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      z-index: 2;
+    }
+
+    .header-column {
+      width: 33%;
+    }
+
+    .header-column:first-child a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: teal;
+      color: white;
+      cursor: pointer;
+      width: fit-content;
+    }
+
+    .header-column:first-child a:hover {
+      transform: scale(1.05);
+    }
+
+    .header-column:first-child i {
+      margin-right: 5px;
+    }
+
+    .header-column:nth-child(2) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .header-column:nth-child(2) input {
+      width: 400px;
+      background: white;
+      margin-right: 7px;
+      border: none;
+      border-radius: 25px;
+      outline: none;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+
+    .header-column:last-child {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .header-column:last-child a img {
+      width: 150px;
+      height: 40px;
+      margin-left: 12px;
+    }
+
+    .recommend {
+      margin-top: 90px;
+    }
+
+    .recommend > h1 {
+      font-size: 26px;
+      text-align: center;
+      font-family: 'Merriweather', serif;
+      margin-bottom: 20px;
+    }
+
+    .recommend-list {
+      margin: 0 auto;
+      width: 50%;
+    }
+
+    .recommend-list__field {
+      display: flex;
+      margin-bottom: 20px;
+      border-radius: 40px;
+      padding: 30px 0;
+      height: 30px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15),
+      0 -2px 5px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      transition: 250ms ease-in-out all;
+    }
+
+    .hover-ani {
+      width: 15px;
+      height: 55px;
+    }
+
+    #python {
+      background: linear-gradient(rgb(54, 112, 180),rgb(255,235,72));
+    }
+
+    #javascript {
+      background: rgb(247, 223, 30);
+    }
+
+    #java {
+      background: rgb(251, 215, 216);
+    }
+
+    #nodejs {
+      background: rgb(154, 220, 81);
+    }
+
+    #cpp {
+      background: rgb(101, 154, 210);
+    }
+
+    #c-sharp {
+      background: rgb(158, 117, 217);
+    }
+
+    #typescript {
+      background: #3178C6;
+    }
+
+    #react {
+      background: rgb(190, 240, 252);
+    }
+
+    #react-native {
+      background: linear-gradient(to left, rgb(34, 34, 34) 10%, rgb(40, 185, 205));
+    }
+
+    #vue {
+      background: linear-gradient(to left, rgb(53, 73, 94) 35%,rgb(65, 184, 131) 35%);
+    }
+
+    #angular {
+      background: rgb(221, 0, 49);
+    }
+
+    #django {
+      background: rgb(16, 62, 46);
+    }
+
+    #graphql {
+      background: rgb(229, 53, 171);
+    }
+
+    #next {
+      background: rgb(0, 0, 0);
+    }
+
+    #nest {
+      background: linear-gradient(to left, rgb(230, 230, 230),20%, rgb(34, 34, 34));
+    }
+
+    #ruby {
+      background: linear-gradient(to left, rgb(250,250,250) 30%, rgb(180, 30, 0));
+    }
+
+    #go {
+      background: rgb(0, 172, 215);
+    }
+
+    #php {
+      background: rgb(119, 123, 179);
+    }
+
+    #mysql {
+      background: linear-gradient(to left, rgb(244, 191, 117),40%, rgb(200, 240, 255));
+    }
+
+    #mongo {
+      background: rgb(98, 171, 83);
+    }
+
+    #linux {
+      background: rgb(0, 0, 0);
+    }
+
+    #docker {
+      background: rgb(60, 170, 220);
+    }
+
+    #devops {
+      background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
+      linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
+      linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+    }
+
+    #android {
+      background: rgb(50, 222, 132);
+    }
+
+    #ios {
+      background: rgb(228, 229, 234);
+    }
+
+    .recommend-list__field--title {
+      font-weight: 600;
+      font-size: 18px;
+      margin-left: 10px;
+    }
+
+    .bubble {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 10px;
+      width: 42px; 
+      height: 42px;
+      border-radius: 50%;
+      box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.3), inset -1px -1px 4px rgba(0, 0, 0, 0.3); 
+    }
+
+    .recommend-list__field--img {
+      width: 25px;
+      height: 25px;
+    }
+
+    .field-column {
+      display: flex;
+      align-items: center;
+      width: 50%;
+    }
+
+    .field-column:first-child {
+      transform: translateX(-16px);
+      transition: 250ms ease-in-out all;
+    }
+
+    .recommend-list__field:hover {
+      transform: scale(1.05);
+    }
+
+    .recommend-list__field:hover .field-column:first-child {
+      transform: translateX(0);
+    }
+
+    .field-column:nth-child(2) {
+      justify-content: flex-end;
+    }
+
+    .enter-report {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-right: 8px;
+      background-color: rgba(0, 160, 200, 0.8);
+      border: none;
+      border-radius: 20px;
+      padding: 5px 8px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .enter-report__results {
+      background-color: teal;
+      margin-right: 5px;
+      border-radius: 20px;
+      padding: 5px 15px;
+    }
+
+    .enter-report__enter {
+      font-size: 17px;
+      margin: 0 8px;
+    }
+
+    .enter-report__enter i {
+      margin-left: 2px;
+    }
+
+    @media screen and (max-width: 1180px) {
+      .header-column:last-child {
+        width: 0%;
+        display: none;
+      }
+
+      .header-column {
+        width: 50%;
+      }
+
+      .header-column:nth-child(2) {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .header-column:nth-child(2) input {
+        width: 320px;
+      }
+
+      .recommend-list {
+        width: 80%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-column">
+      <a href="/">
+        <i class="far fa-hand-point-left"></i>Back
+      </a>
+    </div>
+    <div class="header-column">
+      <form action="/report" method="get">
+        <input required name="word" />
+      </form>
+    </div>
+    <div class="header-column">
+      <a href="https://stackoverflow.com/jobs" target="_blank">
+        <img src="{{ url_for('static', filename='source1.png') }}" />
+      </a>
+      <a href="https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term=" target="_blank">
+        <img src="{{ url_for('static', filename='source2.png') }}" />
+      </a>
+      <a href="https://remoteok.com/" target="_blank">
+        <img src="{{ url_for('static', filename='source3.png') }}" />
+      </a>
+    </div>
+  </header>
+  <main class="recommend">
+    <h1>
+      Many fields you can search<br>
+      (If you don't want anything here, please search yourself)
+    </h1>
+    <ul class="recommend-list">
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="python" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/python_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">Python</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=python">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="javascript" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/javascript_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">Javascript</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=javascript">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="java" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/java_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">Java</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=java">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="nodejs" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/nodejs_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">NodeJS</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=nodejs">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="cpp" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/c++_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">C++</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=c plus plus">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="c-sharp" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/csharp_logo.png" />
+          </div>
+          <h4 class="recommend-list__field--title">C#</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=c sharp">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="typescript" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/typescript_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">Typescript</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=c plus plus">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="react" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/react_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">React</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=c plus plus">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="react-native" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/react-native_logo.jpg" />
+          </div>
+          <h4 class="recommend-list__field--title">React Native</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=c plus plus">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="vue" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/vue_logo.png" />
+          </div>
+          <h4 class="recommend-list__field--title">Vue</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=vue">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="angular" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/angular_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">Angular</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=angular">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="django" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/django_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">Django</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=django">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="graphql" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/graphql_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">GraphQL</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=graphql">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="next" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/nextjs_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">NextJS</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=nextjs">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="nest" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/nestjs_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">NestJS</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=nestjs">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="ruby" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/ruby_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">Ruby</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=ruby">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="go" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/go_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">GoLang</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=golang">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="php" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/php_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">php</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=php">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="mysql" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/mysql_logo.png" />
+          </div>
+          <h4 class="recommend-list__field--title">MySQL</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=mysql">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="mongo" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/mongo_logo.png" />
+          </div>
+          <h4 class="recommend-list__field--title">mongo</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=mongo">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="linux" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/linux_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">Linux</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=linux">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="docker" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/docker_logo.png" />
+          </div>
+          <h4 class="recommend-list__field--title">Docker</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=docker">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="devops" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/devops_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">DevOps</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=devops">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="android" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/android_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">Android</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=android">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="recommend-list__field">
+        <div class="field-column">
+          <div id="ios" class="hover-ani"></div>
+          <div class="bubble">
+            <img class="recommend-list__field--img" src="static/ios_logo.svg" />
+          </div>
+          <h4 class="recommend-list__field--title">IOS</h4>
+        </div>
+        <div class="field-column">
+          <a href="/report?word=ios">
+            <div class="enter-report">
+              <div class="enter-report__results">
+                <h4>results</h4>
+              </div>
+              <h5 class="enter-report__enter">
+                GO<i class="fas fa-sign-in-alt"></i>
+              </h5>
+            </div>
+          </a>
+        </div>
+      </li>
+    </ul>
+  </main>
+  <script src="https://kit.fontawesome.com/7d0b8f44ca.js" crossorigin="anonymous"></script>
+  <script>
+    const submitBtn = document.querySelector(".field-column button[type=submit]");
+    console.log(submitBtn);
+  </script>
+</body>
+</html>

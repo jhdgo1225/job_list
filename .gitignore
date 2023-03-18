@@ -1,0 +1,5 @@
+./.breakpoints
+./.cache/*
+./__pycache__/*
+./pyproject.toml
+./poetry.lock

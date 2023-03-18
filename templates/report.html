@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+  <head>
+    <title>Job Search</title>
+    <style>
+      body {
+        margin: 0 auto;
+      }
+
+      a,
+      a:visited {
+        color: inherit;
+        text-decoration: none;
+        transition: 0.1s linear all;
+      }
+
+      header {
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        width: 100vw;
+        height: 70px;
+        background-color: rgba(0, 180, 210);
+        color: white;
+        padding: 10px 20px;
+        position: fixed;
+        top: 0;
+        z-index: 1;
+      }
+
+      .header-column {
+        width: 33%;
+      }
+
+      .header-column:first-child a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: teal;
+        color: white;
+        cursor: pointer;
+        width: fit-content;
+      }
+
+      .header-column:first-child a:hover {
+        transform: scale(1.05);
+      }
+
+      .header-column:first-child i {
+        margin-right: 5px;
+      }
+
+      .header-column:nth-child(2) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .header-column:nth-child(2) input {
+        width: 400px;
+        background: white;
+        margin-right: 7px;
+        border: none;
+        border-radius: 25px;
+        outline: none;
+        padding: 10px 20px;
+        font-size: 16px;
+      }
+
+      .header-column:last-child {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      .header-column:last-child a img {
+        width: 150px;
+        height: 40px;
+        margin-left: 12px;
+      }
+
+      .job-result {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 90px;
+      }
+
+      .job-result__text {
+        background-color: rgba(0, 120, 190, 0.9);
+        margin: 14px 0;
+        border-radius: 40px;
+        padding: 10px 0;
+        color: white;
+        width: 320px;
+        text-align: center;
+      }
+
+      .job-result__download-csv {
+        margin-left: 15px;
+        color: green;
+      }
+
+      .job-result__download-csv:hover {
+        transform: scale(1.2);
+      }
+
+      .job-table {
+        margin: 0 auto;
+        width: 80%;
+      }
+
+      .job-site {
+        list-style-type: none;
+        width: 100%;
+        padding-left: 0;
+      }
+
+      .job-site li {
+        display: flex;
+        align-items: center;
+      }
+
+      .job-site__detail {
+        padding: 5px 10px;
+        border-top: 2px double rgba(0, 160, 200, 0.8);
+        border-bottom: 2px double rgba(0, 160, 200, 0.8);
+        font-weight: 600;
+        font-size: 18px;
+      }
+
+      .job-site__list {
+        margin-bottom: 20px;
+        padding: 20px 10px;
+        border-radius: 40px;
+        box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2), 0 -4px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .job-information {
+        width: 90%;
+        display: flex;
+      }
+
+      .company-image img {
+        width: 45px;
+        height: 45px;
+        border-radius: 10px;
+      }
+
+      .company-content {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .company-loc {
+        display: flex;
+        font-size: 16px;
+      }
+      
+      .job-title {
+        font-size: 20px;
+      }
+
+      .job-company {
+        margin-right: 10px;
+      }
+
+      .job-link {
+        width: 10%;
+        display: flex;
+      }
+
+      .job-link a {
+        width: fit-content;
+        background-color: teal;
+        border-radius: 10px;
+        padding: 10px 25px;
+        color: white;
+        font-weight: 600;
+      }
+
+      .job-link a:hover {
+        transform: scale(1.05);
+      }
+
+      @media screen and (max-width: 1180px) {
+        .header-column:last-child {
+          width: 0%;
+          display: none;
+        }
+
+        .header-column {
+          width: 50%;
+        }
+
+        .header-column:nth-child(2) {
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        .header-column:nth-child(2) input {
+          width: 320px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-column">
+        <a href="/">
+          <i class="far fa-hand-point-left"></i>Back
+        </a>
+      </div>
+      <div class="header-column">
+        <form action="/report" method="get">
+          <input required name="word" />
+        </form>
+      </div>
+      <div class="header-column">
+        <a href="https://stackoverflow.com/jobs" target="_blank">
+          <img src="{{ url_for('static', filename='source1.png') }}" />
+        </a>
+      </div>
+    </header>
+    <section class="job-result">
+      <h3 class="job-result__text">{{searchingBy}} - Found {{resultsNumber}} results</h3>
+      <div class="job-result__download-csv">
+        <a href="/export?word={{searchingBy}}">
+          <i class="fas fa-file-alt fa-2x"></i>
+        </a>
+      </div>
+    </section>
+    <main class="job-table">
+      <ul class="job-site">
+      {% for job in so %}
+        <li class="job-site__list">
+          <div class="job-information">
+            <div class="company-image">
+              <img src="{{job.company_img}}" />
+            </div>
+            <div class="company-content">
+              <span class="job-title">{{job.title}}</span>
+              <div class="company-loc">
+                <span class="job-loc">{{}} <div></div> {{job.location}}></span>
+              </div>
+            </div>
+          </div>
+          <span class="job-link">
+            <a href="{{job.apply_link}}">Link</a>
+          </span>
+        </li>
+      {% endfor %}
+      </ul>
+    </main>
+    <script src="https://kit.fontawesome.com/7d0b8f44ca.js" crossorigin="anonymous"></script>
+  </body>
+</html> 

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+  <head>
+    <title>Job Search</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .welcome {
+        width: 1200px;
+        border-bottom: 1.5px solid rgba(0, 160, 200, 0.8);
+        margin-top: 30px;
+        padding-bottom: 20px;
+      }
+
+      .welcome-title {
+        font-size: 80px;
+        text-align: center;
+      }
+
+      .welcome-painting {
+        width: 800px;
+        height: 250px;
+      }
+
+      .system {
+        position: relative;
+        bottom: 0;
+        right: 0;
+      }
+
+      .orbit {
+        border: 4px solid rgb(200, 200, 255);
+        border-radius: 50%;
+        position: absolute;
+        transform: rotateX(75deg);
+      }
+
+      .planet {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 60px;
+        height: 180px;
+        border-radius: 50%;
+        box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.2),
+          5px 5px 10px rgba(0, 0, 0, 0.2);
+        position: absolute;
+      }
+
+      .orbit img {
+        width: 40px;
+        transform: scaleY(2);
+        height: 60px;
+      }
+
+      .one {
+        width: 800px;
+        height: 800px;
+        right: -200px;
+        bottom: -520px;
+      }
+
+      .one .planet {
+        top: 450px;
+        left: -15px;
+      }
+
+      .two {
+        width: 700px;
+        height: 700px;
+        margin-left: 50px;
+        margin-top: 50px;
+        right: -150px;
+        bottom: -470px;
+      }
+
+      .two .planet {
+        top: 450px;
+        left: 30px;
+      }
+
+      .three {
+        width: 600px;
+        height: 600px;
+        margin-left: 100px;
+        margin-top: 100px;
+        right: -100px;
+        bottom: -420px;
+      }
+
+      .three .planet {
+        top: 460px;
+        left: 120px;
+      }
+
+      .four {
+        width: 500px;
+        height: 500px;
+        margin-left: 150px;
+        margin-top: 150px;
+        right: -50px;
+        bottom: -370px;
+      }
+
+      .four .planet {
+        top: 350px;
+        left: 380px;
+      }
+
+      .five {
+        width: 400px;
+        height: 400px;
+        margin-left: 200px;
+        margin-top: 200px;
+        right: 0;
+        bottom: -320px;
+      }
+
+      .five .planet {
+        top: -50px;
+        left: 280px;
+      }
+
+      .six {
+        width: 300px;
+        height: 300px;
+        margin-left: 250px;
+        margin-top: 250px;
+        right: 50px;
+        bottom: -270px;
+      }
+
+      .six .planet {
+        top: -10px;
+      }
+
+      .orbit__center {
+        position: absolute;
+        right: 155px;
+        bottom: -160px;
+      }
+
+      .orbit__center img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+      }
+
+      .search-method {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .search-form {
+        margin-right: 100px;
+      }
+      
+      .search-form h1 {
+        font-size: 40px;
+      }
+
+      .search-form form {
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+      }
+
+      .search-form input {
+        border: none;
+        border-bottom: 1px solid rgba(0, 160, 200, 0.8);
+        background:none;
+        padding: 15px 10px;
+        font-size: 20px;
+        width: 275px;
+      }
+
+      .search-form input::placeholder {
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 20px;
+      }
+
+      .search-form button {
+        margin-left: 30px;
+      }
+
+      input:focus {
+        outline: none;
+      }
+
+      .search-form button {
+        background-color: rgba(0, 160, 200, 0.8);
+        border: none;
+        border-radius: 8px;
+        padding: 13px 15px;
+        color: white;
+        font-size: 15px;
+        cursor: pointer;
+      }
+
+      .search-form button:hover {
+        background-color: white;
+        color: rgba(0, 160, 200, 0.8);
+      }
+
+      .detail-search {
+        margin-top: 40px;
+      }
+
+      .detail-search__dir {
+        width: 200px;
+        height: 120px;
+        margin-top: 40px;
+        margin-left: 100px;
+        border-radius: 10px;
+        background-color: rgb(255,160,255);
+        position: relative;
+        box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.3);
+        transition: 0.2s ease-out all;
+        cursor: pointer;
+      }
+
+      .detail-search__dir:hover {
+        transform: scale(1.07);
+      }
+
+      .detail-search__dir--title {
+        width: 140px;
+        height: 26px;
+        border-top-left-radius: 40px; 
+        border-top-right-radius: 40px;
+        background-color: rgb(180,150,255);
+        position: absolute;
+        top: -25px;
+        left: 5px;
+        box-shadow: inset 0px -5px 10px rgba(0, 0, 0, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="welcome">
+      <h1 class="welcome-title">
+        Welcome to<br>Recruit List!
+      </h1>
+      <section class="welcome-painting">
+        <div class="system">
+          <div class="orbit one">
+            <div class="planet">
+              <img src="static/javascript_logo.svg" />
+            </div>
+          </div>
+          <div class="orbit two">
+            <div class="planet">
+              <img src="static/typescript_logo.svg" />
+            </div>
+          </div>
+          <div class="orbit three">
+            <div class="planet">
+              <img src="static/go_logo.svg" />
+            </div>
+          </div>
+          <div class="orbit four">
+            <div class="planet">
+              <img src="static/java_logo.svg" />
+            </div>
+          </div>
+          <div class="orbit five">
+            <div class="planet">
+              <img src="static/csharp_logo.png" />
+            </div>
+          </div>
+          <div class="orbit six">
+            <div class="planet">
+              <img src="static/python_logo.svg" />
+            </div>
+          </div>
+          <div class="orbit__center">
+            <img src="static/earth.png" />
+          </div>
+        </div>
+      </section>
+    </header>
+    <div class="search-method">
+      <div class="search-form">
+        <h1>Search Your Dream</h1>
+        <form action="/report" method="get">
+          <input placeholder='What job do you want?' required name="word" />
+          <button>Search</button>
+        </form>
+      </div>
+      <div class="detail-search">
+        <h1>Many Fields You can Search</h1>
+        <a href="/recommend">
+          <div class="detail-search__dir">
+            <div class="detail-search__dir--title"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <script src="https://kit.fontawesome.com/7d0b8f44ca.js" crossorigin="anonymous"></script>
+  </body>
+</html>
